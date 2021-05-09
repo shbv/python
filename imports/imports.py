@@ -18,8 +18,8 @@ Syntax/Behavior:
                              current script directory, 
                              standard library path (from PYTHONPATH variable or default sys.path locations)
             E.g.: If math.py, random.py in current dir:  
-                import math => from standard library (not current dir), 
-                import random => from current dir
+                import time => from standard library (not current dir), 
+                import math => from current dir
             [x[1] for x in pkgutil.iter_modules(path=None)]  => List all modules in sys.path
             [x[1] for x in pkgutil.iter_modules(path=['.'])] => List all modules in current script directory
     Note: 
@@ -42,7 +42,7 @@ import numpy as np
 print(np.zeros(2))
 import pkgutil
 print("Accesible names in package sys:", dir(pkgutil))
-print("First 10 modules in sys.path:", [x[1] for x in pkgutil.iter_modules(path=None)][:10])
+print("First 10 modules in sys.path:", [x[1] for x in pkgutil.iter_modules(path=None)])#[:10])
 print("First 10 modules in script dir:", [x[1] for x in pkgutil.iter_modules(path=['.'])][:10])
 
 """ Regular imports using 'from' """
@@ -58,10 +58,11 @@ print(path.curdir)
 #from packA import a1   # Does not need __init__.py 
 #import packA.a1        # Does not need __init__.py
 import packA            # Needs __init__.py with objects to be accessible. Not useful without __init__.py.
-packA.a1.a1_func()      # Needs __init__.py: Normal call to module object in package
-packA.a1_func()         # Needs __init__.py: Flexible call due to import a1_func() in package __init__.py 
+packA.a1.a1_func()      # Needs __init__.py: Normal call <package>.<module>.<object>
+packA.a1_func()         # Needs __init__.py: Flexible call <package>..<object> due to import <object> in package __init__.py 
 print(packA.a1.a1_x)
 print(packA.a1_x)
+packA.a2.a2_func()      # Needs __init__.py: Normal call <package>.<module>.<object>
 # Full path: <package>.<subpackage>.<module>.<object>
 import packA.subA.sa1
 packA.subA.sa1.helloWorld()
@@ -79,3 +80,13 @@ sa1.helloWorld()
 # See packA/a1.py
 
 
+""" Optional imports"""
+try: 
+    from urllib2 import urlopen
+except ImportError:
+    from urllib.request import urlopen
+    print("optional import - except section")
+
+#""" Shadow import"""
+#import math
+#print(math.sqrt(4))

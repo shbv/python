@@ -12,8 +12,9 @@ def a1_func():
        If we want to run "a1.py" as script, 
             a. From root directory, run it as module "python -m packA.a1". 
                But if packA has __init__.py with "from a1 import *", it'll run a1 twice
-            b. Add root directory into sys.path in this module & use all absolute imports from the root folder. 
-               Shown below in commented section (if __file__ doesn't work, use inspect package).
+            b. Add root directory into sys.path in this module & use all absolute imports from the root folder. Shown below in commented section.
+               Also we cannot have "if __name__ == '__main__'" section with relative imports in the file.
+               Only then we can run "python a1.py"
     Bottomline: Using relative imports => makes running scripts under the package directly harder.
 """
 
@@ -41,3 +42,7 @@ from .subA import sa1   # relatively at ./sa1.py
 
 # Debug message
 print("Running packA/a1.py")
+
+# Run only if "python -m a1", or "python a1.py". Not when its imported
+if __name__ == "__main__":
+    print("Running main section in packA/a1.py")
