@@ -42,7 +42,7 @@ import numpy as np
 print(np.zeros(2))
 import pkgutil
 print("Accesible names in package sys:", dir(pkgutil))
-print("First 10 modules in sys.path:", [x[1] for x in pkgutil.iter_modules(path=None)])#[:10])
+print("First 10 modules in sys.path:", [x[1] for x in pkgutil.iter_modules(path=None)][:10])
 print("First 10 modules in script dir:", [x[1] for x in pkgutil.iter_modules(path=['.'])][:10])
 
 """ Regular imports using 'from' """
