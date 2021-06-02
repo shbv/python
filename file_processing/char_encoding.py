@@ -1,6 +1,6 @@
 """
 Character encodings:
-    Way of translating characters to integers to bits
+    Way of translating characters (an abstraction) to integers (unicode code point) to bits/bytes (files contain bytes, not strings)
         E.g. 
         - ASCII encoding scheme has 128 characters (a-z, 0-9, etc.) & code points (0 to 127 in base 10):  
             - each character requires at most 1 byte of space (7 bits to be exact)
@@ -56,13 +56,21 @@ print(f"ascii('jalepeño'):  {ascii('jalepeño')}") #'jalepe\xf1o'
 print(f"bin(10):  {bin(10)}") # 0b1010
 print(f"hex(10):  {hex(10)}") # 0xa
 print(f"bytes from iterable of ints: {bytes((104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100))}") # b'hello world'
-print(f"bytes(3): {bytes(3)}") #b'\x00\x00\x00
+print(f"bytes(3): {bytes(3)}") #b'\x00\x00\x00'
+print()
+print("=== byte immutable object & bytearray to edit it ===")
+by = b'abcd\x65'    # each byte in it could be ASCII character or encoded hex (0-255 since 8 bits in byte)
+barr = bytearray(by)  
+print (barr)        #bytearray(b'abcde')
+print (len(barr))   #5
+barr[0] = 102         
+print (barr)        #bytearray(b'fbcde')
 print()
 
 """
 Encoding & Decoding 
-    <str>.encode() => bytes type data (allows ascii characters as is)
-    <bytes>.decode() => str type data
+    <str>.encode()   => FROM unicode character string TO byte object/string (allows ascii characters as is)
+    <bytes>.decode() => FROM byte object/string TO unicode character string 
     All I/O happens in bytes (not str/text)
 """
 
@@ -83,7 +91,7 @@ print(f"txt: {txt}, by: {by} (number of bytes: {len(by)}), st: {st}")
 print()
 
 print("=== byte in latin-1 encoding (default for http) to string ===")
-by = b"\xbc cup of flour"
+by = b"\xbc cup of flour"  # byte string
 st = by.decode("latin-1")
 print(f"by: {by}, st: {st}")
 # by: b'\xbc cup of flour', st: ¼ cup of flour
